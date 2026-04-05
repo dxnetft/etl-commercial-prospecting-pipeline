@@ -1,0 +1,8 @@
+pandas>=2.0
+openpyxl>=3.1
+xlsxwriter>=3.1
+pycountry>=23.12
+gender-guesser>=0.4
+fuzzywuzzy>=0.18
+python-Levenshtein>=0.21
+phonenumbers>=8.13
