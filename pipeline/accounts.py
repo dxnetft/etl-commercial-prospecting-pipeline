@@ -177,4 +177,4 @@ def export_accounts(df: pd.DataFrame, output_path: Path) -> None:
     """Write accounts CSV (utf-8-sig for Excel compatibility)."""
     output_path.parent.mkdir(parents=True, exist_ok=True)
     df.to_csv(output_path, index=False, encoding="utf-8-sig")
-    print(f"  Accounts saved → {output_path}")
+    print(f"  Accounts saved -> {output_path}")
