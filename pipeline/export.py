@@ -65,7 +65,12 @@ def export_issues_file(df: pd.DataFrame, output_path: Path) -> None:
             issue_val = out.iloc[row_idx].get("Issue", "") if "Issue" in out.columns else ""
             fmt = flagged_fmt if issue_val else normal_fmt
             for col_idx in range(n_cols):
-                ws.write(row_idx + 1, col_idx, out.iloc[row_idx, col_idx], fmt)
+                raw = out.iloc[row_idx, col_idx]
+                # Convert NaN/NaT to empty string for xlsxwriter
+                import math
+                if raw is None or (isinstance(raw, float) and math.isnan(raw)):
+                    raw = ""
+                ws.write(row_idx + 1, col_idx, raw, fmt)
 
         # Autofilter
         ws.autofilter(0, 0, n_rows, n_cols - 1)
@@ -148,9 +153,12 @@ def export_deliverable(
 
         for row_idx in range(n_rows):
             for col_idx in range(n_cols):
-                val = deliverable_df.iloc[row_idx, col_idx]
+                import math
+                raw = deliverable_df.iloc[row_idx, col_idx]
+                if raw is None or (isinstance(raw, float) and math.isnan(raw)):
+                    raw = ""
                 fmt = unlocked_fmt if col_idx in editable_indices else locked_fmt
-                ws_p.write(row_idx + 1, col_idx, val, fmt)
+                ws_p.write(row_idx + 1, col_idx, raw, fmt)
 
         # Issue Category dropdown
         if "Issue Category" in deliverable_df.columns:
